@@ -1208,14 +1208,14 @@ font-weight:bold;
     border: 1px solid #00d4ff;
     border-radius: 20px;
     box-shadow: 0 0 25px rgba(0, 212, 255, 0.15);
-    align-items: center; /* Centra verticalmente */
+    align-items: center;
 }
 
 .imagen-producto {
     flex: 1;
     display: flex;
     justify-content: center;
-    background: white; /* Fondo blanco por si tus imágenes no tienen fondo oscuro */
+    background: white; 
     padding: 20px;
     border-radius: 15px;
 }
@@ -1251,12 +1251,7 @@ font-weight:bold;
     color: #aaa;
 }
 
-.info-producto .descripcion {
-    font-size: 18px;
-    line-height: 1.6;
-    color: #ddd;
-    margin-bottom: 20px;
-}
+
 
 /* =========================
 RESPONSIVE
@@ -1943,7 +1938,7 @@ nav{
 
 .imagen-producto img {
     max-width: 100%;
-    max-height: 400px; /* Esto evita que la imagen crezca sin control */
+    max-height: 400px; 
     object-fit: contain;
 }
 

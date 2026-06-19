@@ -69,9 +69,6 @@ def agregar_carrito(request, id):
     request.session['carrito'] = carrito
 
     return redirect('carrito')
-def eliminar_carrito(request, id):
-
-    carrito = request.session.get('carrito', [])
 
 def eliminar_carrito(request, id):
 
@@ -247,14 +244,14 @@ def crear_producto(request):
                 {'error': 'Debe seleccionar una imagen.'}
             )
 
-        # Se guarda la categoría enviada por el formulario
+      
         Producto.objects.create(
             nombre=request.POST['nombre'],
             precio=request.POST['precio'],
             descripcion=request.POST['descripcion'],
             imagen=request.FILES['imagen'],
             stock=request.POST['stock'],
-            categoria=request.POST.get('categoria', 'Otros')  # <- Agregado
+            categoria=request.POST.get('categoria', 'Otros') 
         )
         return redirect('admin_productos')
 
@@ -273,7 +270,7 @@ def editar_producto(request, id):
         producto.precio = request.POST['precio']
         producto.descripcion = request.POST['descripcion']
         producto.stock = request.POST['stock']
-        producto.categoria = request.POST.get('categoria', 'Otros')  # <- Agregado
+        producto.categoria = request.POST.get('categoria', 'Otros')
 
         if 'imagen' in request.FILES:
             producto.imagen = request.FILES['imagen']
