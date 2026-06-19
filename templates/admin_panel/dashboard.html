@@ -1,0 +1,63 @@
+{% load static %}
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Panel Admin TechZone</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+</head>
+<body>
+<div class="admin-container">
+
+<h1 class="admin-title">
+🛠️ Panel de Administración TechZone
+</h1>
+
+<div class="stats">
+
+    <div class="stat-card">
+        <h2>{{ total_productos }}</h2>
+        <p>Productos</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ total_usuarios }}</h2>
+        <p>Usuarios</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>{{ total_pedidos }}</h2>
+        <p>Pedidos</p>
+    </div>
+
+    <div class="stat-card">
+        <h2>${{ ventas_totales }}</h2>
+        <p>Ventas Totales</p>
+    </div>
+
+</div>
+
+<div class="admin-links">
+
+    <a href="{% url 'admin_productos' %}" class="admin-btn">
+        📦 Gestionar Productos
+    </a>
+
+    <a href="{% url 'admin_pedidos' %}" class="admin-btn">
+        🛒 Gestionar Pedidos
+    </a>
+
+    <a href="{% url 'admin_usuarios' %}" class="admin-btn">
+        👥 Gestionar Usuarios
+    </a>
+
+    <a href="/" class="admin-btn">
+        🏠 Volver a la Tienda
+    </a>
+
+</div>
+
+</body>
+</html>

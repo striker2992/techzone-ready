@@ -1,0 +1,91 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Carrito | TechZone</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<header>
+    <div class="logo">TZ</div>
+    <h1>TechZone</h1>
+</header>
+
+<section class="carrito-container">
+
+<h1 style="text-align:center; margin-bottom:40px;">
+    🛒 Mi Carrito
+</h1>
+
+{% if productos %}
+
+    {% for producto in productos %}
+
+    <div class="carrito-card">
+
+        <img src="{{ producto.imagen.url }}">
+
+        <div class="carrito-info">
+
+            <h3>{{ producto.nombre }}</h3>
+
+            <p>{{ producto.descripcion|truncatechars:80 }}</p>
+
+            <strong>
+                ${{ producto.precio }}
+            </strong>
+
+        </div>
+
+        <a
+        href="{% url 'eliminar_carrito' producto.id %}"
+        class="btn">
+            ❌ Quitar
+        </a>
+
+    </div>
+
+    {% endfor %}
+
+    <div class="carrito-total">
+
+        <h2>Total: ${{ total }}</h2>
+
+        <br>
+
+        <a
+        href="{% url 'finalizar_compra' %}"
+        class="btn">
+            💳 Finalizar Compra
+        </a>
+
+    </div>
+
+{% else %}
+
+<div class="carrito-vacio">
+
+    <h2>🛒 Tu carrito está vacío</h2>
+
+    <p>
+        Agrega algunos productos para comenzar.
+    </p>
+
+    <br>
+
+    <a href="/" class="btn">
+        🚀 Ir a Comprar
+    </a>
+
+</div>
+
+{% endif %}
+
+</section>
+
+</body>
+</html>

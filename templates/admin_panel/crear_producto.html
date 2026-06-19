@@ -1,0 +1,52 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Producto</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="admin-container">
+
+<h1 class="admin-title">📦 Nuevo Producto</h1>
+
+{% if error %}
+<div class="error-box" style="background-color: #ff4444; color: white; padding: 15px; border-radius: 10px; margin-bottom: 20px; text-align: center; font-weight: bold;">
+    {{ error }}
+</div>
+{% endif %}
+
+<form action="{% url 'crear_producto' %}" method="POST" enctype="multipart/form-data" class="form-admin">
+    {% csrf_token %}
+
+    <input type="text" name="nombre" placeholder="Nombre del producto" required>
+    <input type="number" name="precio" placeholder="Precio" required>
+    <input type="number" name="stock" placeholder="Stock" required>
+
+    <label style="color: white; font-weight: bold; margin-top: 5px;">Categoría:</label>
+    <select name="categoria" style="background:#0b0b0b; color:white; border:1px solid #333; padding:15px; border-radius:10px; font-size:16px;" required>
+        <option value="Teclados">Teclados</option>
+        <option value="Mouse">Mouse</option>
+        <option value="Monitores">Monitores</option>
+        <option value="Audífonos">Audífonos</option>
+        <option value="Sillas Gamer">Sillas Gamer</option>
+        <option value="Otros" selected>Otros</option>
+    </select>
+
+    <label style="color: white; font-weight: bold; margin-top: 5px;">Imagen del producto:</label>
+    <input type="file" name="imagen" required>
+
+    <textarea name="descripcion" placeholder="Descripción del producto" rows="5"></textarea>
+
+    <button type="submit" class="btn-guardar">
+        💾 Guardar Producto
+    </button>
+</form>
+
+<br>
+<a href="{% url 'admin_productos' %}" class="admin-btn">⬅️ Volver</a>
+
+</div>
+</body>
+</html>

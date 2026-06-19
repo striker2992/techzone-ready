@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pedidos | TechZone</title>
+
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+</head>
+<body>
+
+<header>
+    <div class="logo">TZ</div>
+    <h1>Panel Admin - Pedidos</h1>
+</header>
+
+<section style="padding:30px;">
+
+
+
+<table style="width:100%; border-collapse:collapse;">
+
+<h2>🛒 Pedidos Registrados</h2>
+
+{% for pedido in pedidos %}
+
+<div class="pedido-card">
+
+
+<p>
+    <strong>Estado:</strong>
+
+    {% if pedido.estado == 'Pendiente' %}
+        <span class="estado-pendiente">{{ pedido.estado }}</span>
+    {% elif pedido.estado == 'Preparando' %}
+        <span class="estado-preparando">{{ pedido.estado }}</span>
+    {% elif pedido.estado == 'Enviado' %}
+        <span class="estado-enviado">{{ pedido.estado }}</span>
+    {% elif pedido.estado == 'Entregado' %}
+        <span class="estado-entregado">{{ pedido.estado }}</span>
+    {% endif %}
+</p>
+
+
+<a href="{% url 'cambiar_estado' pedido.id 'Pendiente' %}" class="estado-btn">
+    Pendiente
+</a>
+
+<a href="{% url 'cambiar_estado' pedido.id 'Preparando' %}" class="estado-btn">
+    Preparando
+</a>
+
+<a href="{% url 'cambiar_estado' pedido.id 'Enviado' %}" class="estado-btn">
+    Enviado
+</a>
+
+<a href="{% url 'cambiar_estado' pedido.id 'Entregado' %}" class="estado-btn">
+    Entregado
+</a>
+
+</p>
+
+<p><strong>Productos:</strong></p>
+
+<ul class="productos-lista">
+
+    {% for detalle in pedido.detallepedido_set.all %}
+
+        <li>
+            {{ detalle.producto.nombre }}
+            - ${{ detalle.precio }}
+        </li>
+
+    {% endfor %}
+
+</ul>
+
+
+</div>
+
+{% endfor %}
+
+<br>
+
+<a href="{% url 'panel_admin' %}">
+    Volver al Dashboard
+</a>

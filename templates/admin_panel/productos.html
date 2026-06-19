@@ -1,0 +1,68 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestionar Productos | TechZone</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2">
+</head>
+<body>
+
+<header>
+    <div class="logo">TZ</div>
+    <h1>Panel Admin - Productos</h1>
+</header>
+
+<section class="admin-container" style="padding:30px;">
+
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>📦 Productos Registrados</h2>
+        <a href="{% url 'crear_producto' %}" class="admin-btn" style="padding: 10px 20px; display: inline-block;">
+            ➕ Nuevo Producto
+        </a>
+    </div>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Imagen</th>
+            <th>Nombre</th>
+            <th>Categoría</th> <th>Precio</th>
+            <th>Stock</th>
+            <th>Acciones</th>
+        </tr>
+
+        {% for producto in productos %}
+        <tr>
+            <td style="text-align: center;">{{ producto.id }}</td>
+            <td style="text-align: center;">
+                {% if producto.imagen %}
+                    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 5px;">
+                {% endif %}
+            </td>
+            <td>{{ producto.nombre }}</td>
+            <td style="text-align: center; color: #00d4ff; font-weight: bold;">{{ producto.categoria }}</td> <td style="text-align: center;">${{ producto.precio }}</td>
+            <td style="text-align: center;">{{ producto.stock }}</td>
+            <td style="text-align: center;">
+                <a href="{% url 'editar_producto' producto.id %}" class="estado-btn estado-preparando">✏️ Editar</a>
+                <a href="{% url 'eliminar_producto' producto.id %}" class="estado-btn" style="background-color: #ff4c4c;" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">🗑️ Eliminar</a>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="7" style="text-align: center; padding: 20px;">No hay productos registrados.</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+    <div style="text-align:center; margin-top: 20px;">
+        <a href="{% url 'panel_admin' %}" class="admin-btn" style="display: inline-block;">
+            ⬅️ Volver al Dashboard
+        </a>
+    </div>
+
+</section>
+
+</body>
+</html>

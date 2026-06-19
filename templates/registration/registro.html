@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Registro | TechZone</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="login-container">
+
+    <div class="login-card">
+
+        <div class="login-logo">
+            TZ
+        </div>
+
+        <h1>TechZone</h1>
+
+        <h2>Crear Cuenta</h2>
+
+        <form method="POST">
+
+            {% csrf_token %}
+
+            {{ form.username.label_tag }}
+            {{ form.username }}
+
+            {{ form.password1.label_tag }}
+            {{ form.password1 }}
+
+            {{ form.password2.label_tag }}
+            {{ form.password2 }}
+
+            <button type="submit">
+                🚀 Registrarse
+            </button>
+
+        </form>
+
+        <br>
+
+        <a href="/accounts/login/">
+            Ya tengo cuenta
+        </a>
+
+    </div>
+
+</div>
+
+</body>
+</html>

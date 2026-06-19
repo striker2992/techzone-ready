@@ -1,0 +1,206 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechZone</title>
+
+
+<link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+
+</head>
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    const cards =
+    document.querySelectorAll(".card");
+
+    cards.forEach((card, index) => {
+
+        card.style.opacity = 0;
+        card.style.transform = "translateY(40px)";
+
+        setTimeout(() => {
+
+            card.style.transition =
+            "all .5s ease";
+
+            card.style.opacity = 1;
+            card.style.transform =
+            "translateY(0)";
+
+        }, index * 100);
+
+    });
+
+});
+</script>
+<body>
+
+<header>
+
+
+<div class="logo">
+    TZ
+</div>
+
+<h1>TechZone</h1>
+
+<nav>
+    <a href="/">Inicio</a>
+    <div class="dropdown">
+    <a href="#">Categorías ▾</a>
+
+
+<div class="dropdown-content">
+
+    <a href="/">Todos</a>
+
+    <a href="?categoria=Teclados">
+        Teclados
+    </a>
+
+    <a href="?categoria=Mouse">
+        Mouse
+    </a>
+
+    <a href="?categoria=Monitores">
+        Monitores
+    </a>
+
+    <a href="?categoria=Audífonos">
+        Audífonos
+    </a>
+
+    <a href="?categoria=Sillas Gamer">
+        Sillas Gamer
+    </a>
+
+</div>
+
+
+</div>
+
+    <a href="{% url 'contacto' %}">
+    Contacto
+</a>
+    <a href="{% url 'mis_compras' %}">
+        Mis Compras
+    </a>
+{% if user.is_authenticated %}
+
+
+<span>👋 {{ user.username }}</span>
+
+{% if user.is_staff %}
+    <a href="{% url 'panel_admin' %}">
+        Panel Admin
+    </a>
+{% endif %}
+
+<form action="/accounts/logout/" method="post" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit" class="logout-btn">
+        Cerrar Sesión
+    </button>
+</form>
+
+
+{% else %}
+
+
+    <a href="/accounts/login/">
+        Login
+    </a>
+
+    <a href="/registro/">
+        Registro
+    </a>
+
+{% endif %}
+
+    <a href="{% url 'carrito' %}" class="carrito">
+    🛒 {{ carrito_count }}
+    </a>
+</nav>
+
+
+</header>
+<section class="buscador">
+
+    <form method="GET">
+
+        <input
+            type="text"
+            name="buscar"
+            placeholder="Buscar productos..."
+        >
+
+        <button type="submit">
+            🔎 Buscar
+        </button>
+
+    </form>
+
+</section>
+
+
+</section>
+<section class="hero">
+
+
+<h2>Potencia Tu Setup Gamer</h2>
+
+<p>
+    Encuentra los mejores periféricos, monitores y accesorios gamer.
+</p>
+
+<a href="#" class="btn">
+    Ver Productos
+</a>
+
+
+</section>
+
+<section class="productos">
+
+
+{% for producto in productos %}
+
+<div class="card">
+
+    <img src="{{ producto.imagen.url }}" alt="{{ producto.nombre }}">
+
+    <h3>{{ producto.nombre }}</h3>
+
+    <p>${{ producto.precio }}</p>
+
+    <a href="{% url 'producto' producto.id %}" class="detalle-btn">
+        Ver Detalles
+    </a>
+
+</div>
+
+{% empty %}
+
+<div style="text-align:center; width:100%;">
+    <h2>No hay productos registrados</h2>
+    <p>Agrega productos desde el panel de administración.</p>
+</div>
+
+{% endfor %}
+
+
+</section>
+
+<footer>
+    <p>© 2026 TechZone - Todos los derechos reservados</p>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Producto</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+<div class="admin-container">
+
+<h1 class="admin-title">✏️ Editar Producto</h1>
+
+<form method="POST" enctype="multipart/form-data" class="form-admin">
+    {% csrf_token %}
+
+    <p>
+        Nombre:
+        <input type="text" name="nombre" value="{{ producto.nombre }}" required>
+    </p>
+
+    <p>
+        Precio:
+        <input type="number" name="precio" value="{{ producto.precio }}" required>
+    </p>
+
+    <p>
+        Stock:
+        <input type="number" name="stock" value="{{ producto.stock }}" required>
+    </p>
+
+    <p>
+        Categoría:
+        <select name="categoria" style="background:#0b0b0b; color:white; border:1px solid #333; padding:15px; border-radius:10px; font-size:16px; width:100%;" required>
+            <option value="Teclados" {% if producto.categoria == 'Teclados' %}selected{% endif %}>Teclados</option>
+            <option value="Mouse" {% if producto.categoria == 'Mouse' %}selected{% endif %}>Mouse</option>
+            <option value="Monitores" {% if producto.categoria == 'Monitores' %}selected{% endif %}>Monitores</option>
+            <option value="Audífonos" {% if producto.categoria == 'Audífonos' %}selected{% endif %}>Audífonos</option>
+            <option value="Sillas Gamer" {% if producto.categoria == 'Sillas Gamer' %}selected{% endif %}>Sillas Gamer</option>
+            <option value="Otros" {% if producto.categoria == 'Otros' %}selected{% endif %}>Otros</option>
+        </select>
+    </p>
+
+    <p>
+        Descripción:
+        <textarea name="descripcion" rows="5">{{ producto.descripcion }}</textarea>
+    </p>
+
+    <p>
+        Imagen Actual:<br>
+        {% if producto.imagen %}
+            <img src="{{ producto.imagen.url }}" style="width: 100px; margin-top: 10px; margin-bottom: 10px; border-radius: 10px;"><br>
+        {% endif %}
+        <input type="file" name="imagen">
+    </p>
+
+    <button type="submit" class="btn-guardar">
+        💾 Guardar Cambios
+    </button>
+</form>
+
+<br>
+<a href="{% url 'admin_productos' %}" class="admin-btn">⬅️ Volver</a>
+
+</div>
+</body>
+</html>
