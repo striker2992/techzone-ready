@@ -1,33 +1,48 @@
 {% load static %}
-
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Compra Exitosa</title>
-
-
-<link rel="stylesheet"
-      href="{% static 'css/style.css' %}">
-
-
+    <title>Compra Exitosa | TechZone</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
-<section
-style="padding:100px;text-align:center;">
+<header>
+    <div class="logo">TZ</div>
+    <h1>TechZone</h1>
+</header>
 
-
-<h1>
-    ✅ Compra realizada con éxito
-</h1>
-
-<br>
-
-<a href="/">
-    Volver a TechZone
-</a>
+<section class="login-container" style="min-height: 80vh;">
+    
+    <div class="login-card" style="max-width: 600px; border-color: #00ff88; box-shadow: 0 0 30px rgba(0, 255, 136, 0.15);">
+        
+        <div style="font-size: 80px; margin-bottom: 20px; text-shadow: 0 0 25px rgba(0, 255, 136, 0.8);">
+            ✅
+        </div>
+        
+        <h1 style="color: #00ff88; font-size: 42px; margin-bottom: 15px;">
+            ¡Compra Exitosa!
+        </h1>
+        
+        <p style="font-size: 18px; color: #ccc; margin-bottom: 40px; line-height: 1.6;">
+            Tu pedido ha sido procesado correctamente y ya lo estamos preparando. <br>
+            Gracias por elegir <strong>TechZone</strong> para potenciar tu setup.
+        </p>
+        
+        <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
+            
+            <a href="{% url 'inicio' %}" class="btn" style="background: linear-gradient(135deg, #00d4ff, #0099ff); color: white; padding: 15px 30px; border-radius: 10px; font-weight: bold; text-decoration: none; font-size: 18px;">
+                🎮 Volver al Inicio
+            </a>
+            
+            <a href="{% url 'mis_compras' %}" class="btn" style="background: #151515; border: 1px solid #00ff88; color: white; padding: 15px 30px; border-radius: 10px; font-weight: bold; text-decoration: none; font-size: 18px;">
+                📦 Ver mi Pedido
+            </a>
+            
+        </div>
+        
+    </div>
 
 </section>
 
