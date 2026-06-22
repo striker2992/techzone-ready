@@ -60,18 +60,22 @@ def carrito(request):
         'productos_carrito': productos_carrito,
         'total': total
     })
-
+@login_required(login_url='registro')
 def agregar_carrito(request, id):
     carrito = request.session.get('carrito', {})
-    if isinstance(carrito, list): carrito = {} 
-        
+
+    if isinstance(carrito, list):
+        carrito = {}
+
     id_str = str(id)
+
     if id_str in carrito:
-        carrito[id_str] += 1 
+        carrito[id_str] += 1
     else:
-        carrito[id_str] = 1 
-        
+        carrito[id_str] = 1
+
     request.session['carrito'] = carrito
+
     return redirect('carrito')
 
 def eliminar_carrito(request, id):
@@ -85,10 +89,13 @@ def eliminar_carrito(request, id):
         
     return redirect('carrito')
 
+@login_required(login_url='registro')
 def finalizar_compra(request):
     carrito = request.session.get('carrito', {})
-    if isinstance(carrito, list): carrito = {}
-        
+
+    if isinstance(carrito, list):
+        carrito = {}
+
     if not carrito:
         return redirect('carrito')
 
@@ -97,27 +104,35 @@ def finalizar_compra(request):
 
     for id_str, cantidad in carrito.items():
         producto = Producto.objects.filter(id=int(id_str)).first()
+
         if producto:
             total += producto.precio * cantidad
-            productos_a_comprar.append({'producto': producto, 'cantidad': cantidad})
+            productos_a_comprar.append({
+                'producto': producto,
+                'cantidad': cantidad
+            })
 
-    pedido = Pedido.objects.create(usuario=request.user, total=total)
+    pedido = Pedido.objects.create(
+        usuario=request.user,
+        total=total
+    )
 
     for item in productos_a_comprar:
         producto = item['producto']
         cantidad = item['cantidad']
-        
+
         DetallePedido.objects.create(
             pedido=pedido,
             producto=producto,
             precio=producto.precio,
             cantidad=cantidad
         )
-        
+
         producto.stock -= cantidad
         producto.save()
 
     request.session['carrito'] = {}
+
     return render(request, 'tienda/compra_exitosa.html')
 
 @login_required(login_url='/accounts/login/')
@@ -132,21 +147,26 @@ def mis_compras(request):
 def registro(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+
         if form.is_valid():
             form.save()
             return redirect('/accounts/login/')
-    else:
-        form = UserCreationForm(request.POST)
-        for campo in form.fields.values():
-            campo.help_text = ''
 
-    return render(request, 'registration/registro.html', {'form': form})
+    else:
+        form = UserCreationForm()
+
+    for campo in form.fields.values():
+        campo.help_text = ''
+
+    return render(request, 'registration/registro.html', {
+        'form': form
+    })
 
 # ==========================================
 # VISTAS DEL PANEL DE ADMINISTRACIÓN
 # ==========================================
 
-@login_required
+
 @login_required
 def panel_admin(request):
     if not request.user.is_staff:
@@ -168,10 +188,7 @@ def panel_admin(request):
     })
    
 @login_required
-@login_required
 def admin_productos(request):
-    if not request.user.is_staff:
-        return redirect('/')
 
     productos = Producto.objects.filter(activo=True)
     
