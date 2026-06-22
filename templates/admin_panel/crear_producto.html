@@ -21,8 +21,8 @@
     {% csrf_token %}
 
     <input type="text" name="nombre" placeholder="Nombre del producto" required>
-    <input type="number" name="precio" placeholder="Precio" required>
-    <input type="number" name="stock" placeholder="Stock" required>
+    <input type="number" name="precio" placeholder="Precio" min="0" max="99999999" required>
+    <input type="number" name="stock" placeholder="Stock" min="0" max="10000" required>
 
     <label style="color: white; font-weight: bold; margin-top: 5px;">Categoría:</label>
     <select name="categoria" style="background:#0b0b0b; color:white; border:1px solid #333; padding:15px; border-radius:10px; font-size:16px;" required>

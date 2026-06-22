@@ -20,13 +20,13 @@
     </p>
 
     <p>
-        Precio:
-        <input type="number" name="precio" value="{{ producto.precio }}" required>
+    Precio:
+    <input type="number" name="precio" value="{{ producto.precio }}" min="0" max="99999999" required>
     </p>
 
     <p>
-        Stock:
-        <input type="number" name="stock" value="{{ producto.stock }}" required>
+    Stock:
+    <input type="number" name="stock" value="{{ producto.stock }}" min="0" max="10000" required>
     </p>
 
     <p>

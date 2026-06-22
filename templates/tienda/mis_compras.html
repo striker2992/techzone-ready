@@ -1,43 +1,91 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Mis Compras</title>
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>Mis Compras | TechZone</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=5">
 </head>
-<br><br>
-
-<a href="/" class="btn">
-    ⬅️ Volver a la Tienda
-</a>
-
 <body>
 
-<h1 style="text-align:center;">
-    Mis Compras
-</h1>
+<header>
+    <div class="logo">TZ</div>
+    <h1>TechZone</h1>
+</header>
 
-{% for pedido in pedidos %}
+<section class="admin-container" style="max-width: 800px; padding: 40px 20px;">
 
-<div class="card">
+    <div style="text-align: center; margin-bottom: 40px;">
+        <h1 style="color: #00d4ff; font-size: 36px;">📦 Mis Compras</h1>
+        <p style="color: #ccc;">Historial y desglose de tus pedidos</p>
+    </div>
 
-    <h2>Pedido #{{ pedido.id }}</h2>
+    {% for pedido in pedidos %}
+    <div class="pedido-card">
+        
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #333; padding-bottom: 15px; margin-bottom: 15px;">
+            <h2 style="color: white; margin: 0;">Pedido #{{ pedido.id }}</h2>
+            <span class="estado-btn estado-{{ pedido.estado|lower }}" style="font-size: 16px; padding: 8px 15px;">
+                {{ pedido.estado }}
+            </span>
+        </div>
 
-    <p>Total: ${{ pedido.total }}</p>
+        <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; background: transparent;">
+            <tr style="background: #0b0b0b;">
+                <th style="padding: 12px; text-align: left; color: #080000; border-bottom: 1px solid #222;">Producto</th>
+                <th style="padding: 12px; text-align: center; color: #000000; border-bottom: 1px solid #222;">Cantidad</th>
+                <th style="padding: 12px; text-align: right; color: #000000; border-bottom: 1px solid #222;">Precio Unit.</th>
+            </tr>
 
-    <p>{{ pedido.fecha }}</p>
+            {% for detalle in pedido.detallepedido_set.all %}
+            <tr>
+                <td style="padding: 12px; border-bottom: 1px solid #222; color: white;">
+                    {{ detalle.producto.nombre }}
+                </td>
+                
+                <td style="padding: 12px; text-align: center; border-bottom: 1px solid #222; color: white;">
+                    {{ detalle.cantidad }}
+                </td>
+                
+                <td style="padding: 12px; text-align: right; border-bottom: 1px solid #222; color: white;">
+                    ${{ detalle.precio }} c/u
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3" style="padding: 12px; text-align: center; color: #ff4c4c;">
+                    No se encontraron detalles para este pedido.
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
 
-</div>
+        <div style="text-align: right; border-top: 1px solid #333; padding-top: 15px;">
+            <h3 style="color: #00ff88; font-size: 24px; margin: 0;">
+                Total pagado: ${{ pedido.total }}
+            </h3>
+        </div>
 
-{% empty %}
+    </div>
+    {% empty %}
+    
+    <div style="text-align: center; padding: 50px; background: #111; border: 1px solid #333; border-radius: 15px;">
+        <h2 style="color: #00d4ff; margin-bottom: 15px;">Aún no tienes compras</h2>
+        <p style="color: #aaa; margin-bottom: 20px;">Explora nuestro catálogo y equipa tu setup.</p>
+        <a href="{% url 'inicio' %}" class="btn" style="background: linear-gradient(135deg, #00d4ff, #0099ff); color: white;">
+            🎮 Ir a la tienda
+        </a>
+    </div>
+    
+    {% endfor %}
 
-<h3 style="text-align:center;">
-    No tienes compras registradas
-</h3>
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="{% url 'inicio' %}" class="btn" style="background-color: #151515; color: white; border: 1px solid #333;">
+            ⬅️ Volver al Inicio
+        </a>
+    </div>
 
-{% endfor %}
+</section>
 
 </body>
 </html>

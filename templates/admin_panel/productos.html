@@ -44,8 +44,9 @@
             <td style="text-align: center; color: #00d4ff; font-weight: bold;">{{ producto.categoria }}</td> <td style="text-align: center;">${{ producto.precio }}</td>
             <td style="text-align: center;">{{ producto.stock }}</td>
             <td style="text-align: center;">
-                <a href="{% url 'editar_producto' producto.id %}" class="estado-btn estado-preparando">✏️ Editar</a>
-                <a href="{% url 'eliminar_producto' producto.id %}" class="estado-btn" style="background-color: #ff4c4c;" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">🗑️ Eliminar</a>
+                <a href="{% url 'editar_producto' producto.id %}" class="estado-btn" style="background-color: #00d4ff; color: black;">✏️ Editar</a>
+    
+                <a href="{% url 'eliminar_producto' producto.id %}" class="estado-btn" style="background-color: #ff4c4c; color: black;" onclick="return confirm('¿Seguro que deseas eliminar este producto?');">🗑️ Eliminar</a>
             </td>
         </tr>
         {% empty %}

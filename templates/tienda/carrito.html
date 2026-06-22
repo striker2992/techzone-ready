@@ -20,32 +20,27 @@
     🛒 Mi Carrito
 </h1>
 
-{% if productos %}
+{% if productos_carrito %}
 
-    {% for producto in productos %}
+   {% for item in productos_carrito %}
 
     <div class="carrito-card">
-
-        <img src="{{ producto.imagen.url }}">
-
+        <img src="{{ item.producto.imagen.url }}">
+        
         <div class="carrito-info">
-
-            <h3>{{ producto.nombre }}</h3>
-
-            <p>{{ producto.descripcion|truncatechars:80 }}</p>
-
-            <strong>
-                ${{ producto.precio }}
+            <h3>{{ item.producto.nombre }}</h3>
+            <p>
+                Precio unitario: ${{ item.producto.precio }}<br>
+                <strong>Cantidad: {{ item.cantidad }}</strong>
+            </p>
+            <strong style="color:#00ff88; font-size:20px;">
+                Subtotal: ${{ item.subtotal }}
             </strong>
-
         </div>
 
-        <a
-        href="{% url 'eliminar_carrito' producto.id %}"
-        class="btn">
-            ❌ Quitar
+        <a href="{% url 'eliminar_carrito' item.producto.id %}" class="btn" style="background:#ff4c4c; color:white; border:none;">
+            ❌ Quitar Todo
         </a>
-
     </div>
 
     {% endfor %}

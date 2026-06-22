@@ -1,23 +1,15 @@
 from django.db import models
-from django.db import models
+from django.core.validators import MinValueValidator
+
 class Producto(models.Model):
-    nombre = models.CharField(max_length=100)
-    precio = models.IntegerField()
+    nombre = models.CharField(max_length=200)
+    precio = models.IntegerField(validators=[MinValueValidator(0)]) 
     descripcion = models.TextField()
-    imagen = models.ImageField(
-        upload_to='productos/'
-    )
-    stock = models.IntegerField(default=0)
-
-
-    def __str__(self):
-        return self.nombre
-
-
-    categoria = models.CharField(
-        max_length=50,
-        default='Otros'
-    )
+    imagen = models.ImageField(upload_to='productos/', null=True, blank=True)
+    stock = models.IntegerField(default=0, validators=[MinValueValidator(0)])
+    categoria = models.CharField(max_length=50, default='Otros')
+    
+    activo = models.BooleanField(default=True) 
 
     def __str__(self):
         return self.nombre
@@ -57,7 +49,7 @@ class DetallePedido(models.Model):
     )
 
     precio = models.IntegerField()
-
+    cantidad = models.IntegerField(default=1)
     def __str__(self):
         return f"{self.producto.nombre}"
     
