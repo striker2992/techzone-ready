@@ -5,15 +5,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Producto, Pedido, DetallePedido
 
-# ==========================================
-# VISTAS DE LA TIENDA PÚBLICA
-# ==========================================
+
 
 def inicio(request):
     buscar = request.GET.get('buscar')
     categoria = request.GET.get('categoria')
 
-    # Solo mostramos los productos activos (borrado lógico)
     productos = Producto.objects.filter(activo=True)
 
     if buscar:
@@ -34,9 +31,7 @@ def producto(request, id):
 def contacto(request):
     return render(request, 'tienda/contacto.html')
 
-# ==========================================
-# VISTAS DEL CARRITO Y COMPRAS
-# ==========================================
+
 
 def carrito(request):
     carrito = request.session.get('carrito', {})
@@ -140,9 +135,7 @@ def mis_compras(request):
     pedidos = Pedido.objects.filter(usuario=request.user).order_by('-id')
     return render(request, 'tienda/mis_compras.html', {'pedidos': pedidos})
 
-# ==========================================
-# VISTAS DE AUTENTICACIÓN
-# ==========================================
+
 
 def registro(request):
     if request.method == 'POST':
@@ -162,9 +155,7 @@ def registro(request):
         'form': form
     })
 
-# ==========================================
-# VISTAS DEL PANEL DE ADMINISTRACIÓN
-# ==========================================
+
 
 
 @login_required
