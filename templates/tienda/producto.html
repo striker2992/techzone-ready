@@ -6,7 +6,6 @@
 <head>
     <meta charset="UTF-8">
     <title>{{ producto.nombre }}</title>
-
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
@@ -42,10 +41,18 @@
         {% if producto.stock > 0 %}
 
         <div class="acciones-producto">
-            <a href="{% url 'agregar_carrito' producto.id %}" class="btn-carrito">
-                🛒 Agregar al carrito
-            </a>
-
+            
+            {% if not user.is_staff %}
+                <a href="{% url 'agregar_carrito' producto.id %}" class="btn-carrito">
+                    🛒 Agregar al carrito
+                </a>
+            {% else %}
+                <div style="background-color: #333; padding: 10px; border-radius: 5px; margin-bottom: 10px; text-align: center;">
+                    <p style="color: #ffcc00; margin: 0; font-size: 14px;">
+                        <em>⚠️ Modo Admin: Compras deshabilitadas.</em>
+                    </p>
+                </div>
+            {% endif %}
             <a href="{% url 'inicio' %}" class="btn-volver">
                 ⬅ Volver
             </a>

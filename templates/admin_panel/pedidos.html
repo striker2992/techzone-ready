@@ -1,16 +1,11 @@
 {% load static %}
 
 <!DOCTYPE html>
-
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <title>Pedidos | TechZone</title>
-
-
-<link rel="stylesheet" href="{% static 'css/style.css' %}">
-
-
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
 
@@ -21,72 +16,61 @@
 
 <section style="padding:30px;">
 
+    <h2>🛒 Pedidos Registrados</h2>
 
+    {% for pedido in pedidos %}
 
-<table style="width:100%; border-collapse:collapse;">
+    <div class="pedido-card">
 
-<h2>🛒 Pedidos Registrados</h2>
+        <div style="border-bottom: 1px solid #444; padding-bottom: 10px; margin-bottom: 15px;">
+            <h3 style="margin: 0; color: #fff;">Pedido #{{ pedido.id }}</h3>
+            <p style="margin: 8px 0 0 0;">
+                <strong>Cliente:</strong> {{ pedido.usuario.username }} <br>
+                <small style="color: #aaa;">{{ pedido.usuario.email }}</small>
+            </p>
+            <p style="margin: 8px 0 0 0; color: #00ff88; font-size: 18px; font-weight: bold;">
+                Total Pagado: ${{ pedido.total }}
+            </p>
+        </div>
 
-{% for pedido in pedidos %}
+        <p>
+            <strong>Estado Actual:</strong>
+            {% if pedido.estado == 'Pendiente' %}
+                <span class="estado-pendiente">{{ pedido.estado }}</span>
+            {% elif pedido.estado == 'Preparando' %}
+                <span class="estado-preparando">{{ pedido.estado }}</span>
+            {% elif pedido.estado == 'Enviado' %}
+                <span class="estado-enviado">{{ pedido.estado }}</span>
+            {% elif pedido.estado == 'Entregado' %}
+                <span class="estado-entregado">{{ pedido.estado }}</span>
+            {% endif %}
+        </p>
 
-<div class="pedido-card">
+        <div style="margin-bottom: 15px;">
+            <a href="{% url 'cambiar_estado' pedido.id 'Pendiente' %}" class="estado-btn">Pendiente</a>
+            <a href="{% url 'cambiar_estado' pedido.id 'Preparando' %}" class="estado-btn">Preparando</a>
+            <a href="{% url 'cambiar_estado' pedido.id 'Enviado' %}" class="estado-btn">Enviado</a>
+            <a href="{% url 'cambiar_estado' pedido.id 'Entregado' %}" class="estado-btn">Entregado</a>
+        </div>
 
+        <p><strong>Productos:</strong></p>
+        <ul class="productos-lista">
+            {% for detalle in pedido.detallepedido_set.all %}
+                <li>
+                    {{ detalle.producto.nombre }} - ${{ detalle.precio }} c/u (Cant: {{ detalle.cantidad }})
+                </li>
+            {% endfor %}
+        </ul>
 
-<p>
-    <strong>Estado:</strong>
-
-    {% if pedido.estado == 'Pendiente' %}
-        <span class="estado-pendiente">{{ pedido.estado }}</span>
-    {% elif pedido.estado == 'Preparando' %}
-        <span class="estado-preparando">{{ pedido.estado }}</span>
-    {% elif pedido.estado == 'Enviado' %}
-        <span class="estado-enviado">{{ pedido.estado }}</span>
-    {% elif pedido.estado == 'Entregado' %}
-        <span class="estado-entregado">{{ pedido.estado }}</span>
-    {% endif %}
-</p>
-
-
-<a href="{% url 'cambiar_estado' pedido.id 'Pendiente' %}" class="estado-btn">
-    Pendiente
-</a>
-
-<a href="{% url 'cambiar_estado' pedido.id 'Preparando' %}" class="estado-btn">
-    Preparando
-</a>
-
-<a href="{% url 'cambiar_estado' pedido.id 'Enviado' %}" class="estado-btn">
-    Enviado
-</a>
-
-<a href="{% url 'cambiar_estado' pedido.id 'Entregado' %}" class="estado-btn">
-    Entregado
-</a>
-
-</p>
-
-<p><strong>Productos:</strong></p>
-
-<ul class="productos-lista">
-
-    {% for detalle in pedido.detallepedido_set.all %}
-
-        <li>
-            {{ detalle.producto.nombre }}
-            - ${{ detalle.precio }}
-        </li>
+    </div>
 
     {% endfor %}
 
-</ul>
+    <br>
 
+    <a href="{% url 'panel_admin' %}">Volver al Dashboard</a>
 
-</div>
+</section>
 
-{% endfor %}
-
-<br>
-
-<a href="{% url 'panel_admin' %}">
-    Volver al Dashboard
-</a>
+</body>
+</html>

@@ -4,7 +4,7 @@ from django.db.models import Q
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Producto, Pedido, DetallePedido
-
+from .forms import RegistroUsuarioForm
 
 
 def inicio(request):
@@ -55,22 +55,23 @@ def carrito(request):
         'productos_carrito': productos_carrito,
         'total': total
     })
+    
 @login_required(login_url='registro')
 def agregar_carrito(request, id):
+    
+    if request.user.is_authenticated and request.user.is_staff:
+        return redirect('inicio')
+        
     carrito = request.session.get('carrito', {})
-
-    if isinstance(carrito, list):
-        carrito = {}
-
+    if isinstance(carrito, list): carrito = {} 
+        
     id_str = str(id)
-
     if id_str in carrito:
-        carrito[id_str] += 1
+        carrito[id_str] += 1 
     else:
-        carrito[id_str] = 1
-
+        carrito[id_str] = 1 
+        
     request.session['carrito'] = carrito
-
     return redirect('carrito')
 
 def eliminar_carrito(request, id):
@@ -84,13 +85,16 @@ def eliminar_carrito(request, id):
         
     return redirect('carrito')
 
-@login_required(login_url='registro')
+@login_required(login_url='/accounts/login/')
 def finalizar_compra(request):
+
+    if request.user.is_staff:
+        return redirect('inicio')
+        
     carrito = request.session.get('carrito', {})
-
-    if isinstance(carrito, list):
-        carrito = {}
-
+    if isinstance(carrito, list): carrito = {}
+    
+  
     if not carrito:
         return redirect('carrito')
 
@@ -139,22 +143,18 @@ def mis_compras(request):
 
 def registro(request):
     if request.method == 'POST':
-        form = UserCreationForm(request.POST)
 
+        form = RegistroUsuarioForm(request.POST)
         if form.is_valid():
             form.save()
             return redirect('/accounts/login/')
-
     else:
-        form = UserCreationForm()
+    
+        form = RegistroUsuarioForm()
+        for campo in form.fields.values():
+            campo.help_text = ''
 
-    for campo in form.fields.values():
-        campo.help_text = ''
-
-    return render(request, 'registration/registro.html', {
-        'form': form
-    })
-
+    return render(request, 'registration/registro.html', {'form': form})
 
 
 
