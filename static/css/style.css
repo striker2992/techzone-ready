@@ -481,7 +481,7 @@ transition:.3s;
 background:
 linear-gradient(
     135deg,
-    #00d4ff,
+    #ffffff,
     #0099ff
 );
 
@@ -763,49 +763,37 @@ BOTONES GENERALES
 ========================= */
 
 .btn,
-.detalle-btn{
-
-
-display:inline-block;
-
-padding:12px 25px;
-
-border-radius:10px;
-
-text-decoration:none;
-
-font-weight:bold;
-
-transition:.3s;
-
-
+.detalle-btn {
+    display: inline-block;
+    padding: 12px 25px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: .3s;
 }
 
-.detalle-btn{
-
-
-background:
-linear-gradient(
-    135deg,
-    #00d4ff,
-    #0099ff
-);
-
-color:white;
-
-
+.detalle-btn {
+    background: #ffffff;
+    color: #000000;
 }
 
-.detalle-btn:hover{
-
-
-transform:scale(1.05);
-
-box-shadow:
-0 0 20px #00d4ff;
-
-
+.detalle-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px #ffffff;
 }
+
+
+.btn {
+    color: #ffffff; /
+    
+    border: 2px solid #ffffff; 
+}
+
+.btn:hover {
+    color: #000000;
+    background-color: #ffffff; 
+}
+
 /* =========================
 ADMIN CONTAINER
 ========================= */

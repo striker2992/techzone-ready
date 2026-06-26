@@ -37,6 +37,19 @@ document.addEventListener("DOMContentLoaded", () => {
         }, 300); 
     }
 
+
+    const btnVerProductos = document.querySelector('.hero .btn');
+    const seccionProductos = document.querySelector('.productos');
+
+    if (btnVerProductos && seccionProductos) {
+        btnVerProductos.addEventListener('click', function(evento) {
+          
+            evento.preventDefault(); 
+            
+            seccionProductos.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+
 });
 </script>
 
