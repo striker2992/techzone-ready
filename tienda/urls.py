@@ -28,5 +28,6 @@ urlpatterns = [
         views.contacto,
         name='contacto'
         ),
-
+    path('perfil/', views.perfil, name='perfil'),
+    path('cambiar-password/', views.cambiar_password, name='cambiar_password'),
 ]

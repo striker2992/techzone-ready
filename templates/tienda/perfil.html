@@ -1,0 +1,71 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Mi Perfil | TechZone</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+
+<div class="login-container">
+    <div class="login-card">
+        
+        <div class="login-logo">TZ</div>
+        <h1>Mi Perfil</h1>
+        <h2>Actualizar Datos</h2>
+
+        <form method="POST">
+            {% csrf_token %}
+
+            {% if form.errors %}
+                <div style="background-color: #ffcccc; border: 1px solid #cc0000; color: #cc0000; padding: 10px; border-radius: 5px; margin-bottom: 15px; font-size: 14px; text-align: center;">
+                    ⚠️ No se pudieron guardar los cambios. Revisa los detalles abajo.
+                </div>
+            {% endif %}
+
+            {{ form.username.label_tag }}
+            {{ form.username }}
+            {% if form.username.errors %}
+                <div style="color: #ff4c4c; font-size: 14px; margin-top: -10px; margin-bottom: 15px;">
+                    {{ form.username.errors.0 }}
+                </div>
+            {% endif %}
+            
+            {{ form.email.label_tag }}
+            {{ form.email }}
+            {% if form.email.errors %}
+                <div style="color: #ff4c4c; font-size: 14px; margin-top: -10px; margin-bottom: 15px;">
+                    {{ form.email.errors.0 }}
+                </div>
+            {% endif %}
+            
+            {{ form.password_actual.label_tag }}
+            {{ form.password_actual }}
+            {% if form.password_actual.errors %}
+                <div style="color: #ff4c4c; font-size: 14px; margin-top: -10px; margin-bottom: 15px;">
+                    {{ form.password_actual.errors.0 }}
+                </div>
+            {% endif %}
+
+            <button type="submit" style="margin-top: 10px;">
+                💾 Guardar Cambios
+            </button>
+        </form>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <a href="{% url 'cambiar_password' %}" style="color: #ffcc00; text-decoration: none; font-weight: bold; border: 1px solid #ffcc00; padding: 8px 15px; border-radius: 5px; display: inline-block;">
+                🔑 Deseo cambiar mi contraseña
+            </a>
+        </div>
+
+        </form>
+
+        <br>
+        <a href="/">⬅ Cancelar y volver</a>
+
+    </div>
+</div>
+
+</body>
+</html>

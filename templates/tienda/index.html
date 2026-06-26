@@ -15,7 +15,6 @@
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     
-   
     const cards = document.querySelectorAll(".card");
     cards.forEach((card, index) => {
         card.style.opacity = 0;
@@ -27,16 +26,12 @@ document.addEventListener("DOMContentLoaded", () => {
         }, index * 100);
     });
 
-   
     const urlParams = new URLSearchParams(window.location.search);
     
-    
     if (urlParams.has('categoria')) {
-       
         setTimeout(() => {
             const seccionProductos = document.querySelector('.productos');
             if (seccionProductos) {
-               
                 seccionProductos.scrollIntoView({ behavior: 'smooth' });
             }
         }, 300); 
@@ -76,8 +71,12 @@ document.addEventListener("DOMContentLoaded", () => {
             Mis Compras
         </a>
         {% endif %}
+
         {% if user.is_authenticated %}
-            <span>👋 {{ user.username }}</span>
+            
+            <a href="{% url 'perfil' %}" style="color: #00ff88; text-decoration: none; font-weight: bold; margin-right: 15px;">
+                ⚙️ Mi Perfil ({{ user.username }})
+            </a>
 
             {% if user.is_staff %}
                 <a href="{% url 'panel_admin' %}">

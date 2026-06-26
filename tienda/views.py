@@ -5,7 +5,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .models import Producto, Pedido, DetallePedido
 from .forms import RegistroUsuarioForm
-
+from .forms import PerfilUsuarioForm
+from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth import update_session_auth_hash
 
 def inicio(request):
     buscar = request.GET.get('buscar')
@@ -274,3 +276,32 @@ def cambiar_estado(request, id, estado):
     pedido.save()
 
     return redirect('admin_pedidos')
+
+@login_required(login_url='/accounts/login/')
+def perfil(request):
+    if request.method == 'POST':
+       
+        form = PerfilUsuarioForm(request.POST, instance=request.user, user=request.user)
+        
+        if form.is_valid():
+            form.save()
+            return redirect('inicio')
+    else:
+       
+        form = PerfilUsuarioForm(instance=request.user, user=request.user)
+
+    return render(request, 'tienda/perfil.html', {'form': form})
+
+@login_required(login_url='/accounts/login/')
+def cambiar_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
+        if form.is_valid():
+            user = form.save()
+            # Esto evita que Django cierre tu sesión tras cambiar la clave
+            update_session_auth_hash(request, user)
+            return redirect('perfil') 
+    else:
+        form = PasswordChangeForm(request.user)
+
+    return render(request, 'tienda/cambiar_password.html', {'form': form})
